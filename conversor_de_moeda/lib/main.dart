@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
+import 'file:///D:/Programing/Curso%20de%20desenvolvimento%20mobile%20em%20flutter/conversor_de_moeda/lib/secondScreen.dart';
 
 void main() {
   runApp(MaterialApp(
     home: Home(),
+    theme: ThemeData(
+        hintColor: Colors.amber,
+        primaryColor: Colors.white,
+        inputDecorationTheme: InputDecorationTheme(
+          enabledBorder:
+          OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+          focusedBorder:
+          OutlineInputBorder(borderSide: BorderSide(color: Colors.amber)),
+          hintStyle: TextStyle(color: Colors.amber),
+        )
+    ),
   ));
 }
 
@@ -22,33 +34,52 @@ class _HomeState extends State<Home> {
           centerTitle: true,
         ),
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: TextField(
+            Icon(Icons.monetization_on, size: 150.0, color: Colors.amber),
+            Divider(),
+            Divider(),
+            Divider(),
+            Divider(),
+            Divider(),
+            Divider(),
+            Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Column(
+                children: <Widget>[
+                  TextField(
                     decoration: InputDecoration(
-                        labelText: "Digite o seu valor em reais",
+                        labelText: "Digite o valor que deseja convertet!",
                         labelStyle: TextStyle(color: Colors.amber),
-                        prefixText: "R/$"
+                        border: OutlineInputBorder()
                     ),
+                    style: TextStyle(color: Colors.amber, fontSize: 18.0),
+                    textAlign: TextAlign.center,
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
-                      ),
-                      color: Colors.amber,
-                      child: Text("Converter!!", style: TextStyle(fontSize: 20, color: Colors.white),),
-                      onPressed: () {}
-
+                  Padding(
+                    padding: EdgeInsets.all(15.0),
+                    child: FlatButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomeSecond()
+                            ),
+                          );
+                        },
+                        color: Colors.amber,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child:
+                          Text("Converter!!", style: TextStyle(
+                              fontSize: 25, color: Colors.black),),
+                        )
+                    ),
                   )
-                ),
-              ],
+                ],
+              ),
             )
           ],
         )
