@@ -41,6 +41,7 @@ class _HomeState extends State<HomeSecond> {
 
   double dollar;
   double euro;
+  double libra;
 
   bool resetReal = false;
   bool resetDollar = false;
@@ -130,8 +131,10 @@ class _HomeState extends State<HomeSecond> {
                         textAlign: TextAlign.center),
                   );
                 } else {
+
                   dollar = snapshot.data["results"]["currencies"]["USD"]["buy"];
                   euro = snapshot.data["results"]["currencies"]["EUR"]["buy"];
+                  libra = snapshot.data["results"]["currencies"]["GBP"]["buy"];
                   return SingleChildScrollView(
                     padding: EdgeInsets.all(10.0),
                     child: Column(
@@ -139,11 +142,13 @@ class _HomeState extends State<HomeSecond> {
                       children: <Widget>[
                         Icon(Icons.monetization_on,
                             size: 150.0, color: Colors.amber),
+                        buildTextField("Reais", "R\$", realController, _realChanged),
+                        Divider(),
                         buildTextField("Euros", "€", euroController, _euroChanged),
                         Divider(),
                         buildTextField("Dólares", "US\$", dollarController, _dollarChanged),
                         Divider(),
-                        buildTextField("Libras", "R\$", realController, _realChanged),
+                        buildTextField("Libras", "£", realController, _realChanged),
                       ],
                     ),
                   );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'file:///D:/Programing/Curso%20de%20desenvolvimento%20mobile%20em%20flutter/conversor_de_moeda/lib/secondScreen.dart';
+
+import 'secondScreen.dart';
 
 void main() {
   runApp(MaterialApp(
