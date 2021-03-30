@@ -40,6 +40,7 @@ class _HomeSecondState extends State<HomeSecond> {
   final realController = TextEditingController();
   final dollarController = TextEditingController();
   final euroController = TextEditingController();
+  final libraController = TextEditingController();
 
   double real;
   double dollar;
@@ -49,6 +50,7 @@ class _HomeSecondState extends State<HomeSecond> {
   bool resetReal = false;
   bool resetDollar = false;
   bool resetEuro = false;
+  bool resetLibra = false;
 
   void _realChanged(String text){
     double real = 0;
@@ -66,6 +68,7 @@ class _HomeSecondState extends State<HomeSecond> {
     }
     dollarController.text = (real/dollar).toStringAsFixed(2);
     euroController.text = (real/euro).toStringAsFixed(2);
+    libraController.text = (real/libra).toStringAsFixed(2);
   }
 
   void _dollarChanged(String text){
@@ -84,6 +87,7 @@ class _HomeSecondState extends State<HomeSecond> {
     }
     realController.text = (dollars * dollar).toStringAsFixed(2);
     euroController.text = (dollars * dollar / euro).toStringAsFixed(2);
+    libraController.text = (dollars * dollar / libra).toStringAsFixed(2);
   }
 
   void _euroChanged(String text){
@@ -102,6 +106,25 @@ class _HomeSecondState extends State<HomeSecond> {
     }
     realController.text = (euros * euro).toStringAsFixed(2);
     dollarController.text = (euros * euro / dollar).toStringAsFixed(2);
+    libraController.text = (euros * euro / libra).toStringAsFixed(2);
+  }
+
+  void _librasChanged(String text){
+    double libra = 0;
+    if(resetLibra){
+      libraController.text = text[0];
+      libraController.selection = TextSelection.fromPosition(TextPosition(offset: libraController.text.length));
+      resetLibra = false;
+    }
+    if(!text.isEmpty) {
+      libra = double.parse(text);
+    }
+    else{
+      libraController.text = "0.00";
+      resetLibra = true;
+    }
+    realController.text = (libra * real).toStringAsFixed(2);
+    libraController.text = (dollars * dollar / libra).toStringAsFixed(2);
   }
 
   void _start(){
@@ -142,7 +165,7 @@ class _HomeSecondState extends State<HomeSecond> {
                   dollar = snapshot.data["results"]["currencies"]["USD"]["buy"];
                   euro = snapshot.data["results"]["currencies"]["EUR"]["buy"];
                   libra = snapshot.data["results"]["currencies"]["GBP"]["buy"];
-                  realController.text = widget.valueReal;
+                  realController.text = widget.valueReal + ".00";
                   _realChanged(widget.valueReal);
                   return SingleChildScrollView(
                     padding: EdgeInsets.all(10.0),
@@ -157,7 +180,7 @@ class _HomeSecondState extends State<HomeSecond> {
                         Divider(),
                         buildTextField("Dólares", "US\$ ", dollarController, _dollarChanged),
                         Divider(),
-                        buildTextField("Libras", "£ ", realController, _realChanged),
+                        buildTextField("Libras", "£ ", libraController, _librasChanged),
                       ],
                     ),
                   );
