@@ -25,6 +25,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  TextEditingController valorCotacao = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,10 +51,11 @@ class _HomeState extends State<Home> {
                 children: <Widget>[
                   TextField(
                     decoration: InputDecoration(
-                        labelText: "Digite o valor que deseja convertet!",
+                        labelText: "Digite o valor que deseja converter!",
                         labelStyle: TextStyle(color: Colors.amber),
                         border: OutlineInputBorder()
                     ),
+                    controller: valorCotacao,
                     style: TextStyle(color: Colors.amber, fontSize: 18.0),
                     textAlign: TextAlign.center,
                   ),
@@ -60,10 +63,11 @@ class _HomeState extends State<Home> {
                     padding: EdgeInsets.all(15.0),
                     child: FlatButton(
                         onPressed: () {
+                          String value = valorCotacao.text;
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => HomeSecond()
+                              builder: (context) => HomeSecond(valueReal: value)
                             ),
                           );
                         },

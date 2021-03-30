@@ -30,15 +30,18 @@ Future<Map> getData() async {
 }
 
 class HomeSecond extends StatefulWidget {
+  String valueReal;
+  HomeSecond({this.valueReal});
   @override
-  _HomeState createState() => _HomeState();
+  _HomeSecondState createState() => _HomeSecondState();
 }
 
-class _HomeState extends State<HomeSecond> {
+class _HomeSecondState extends State<HomeSecond> {
   final realController = TextEditingController();
   final dollarController = TextEditingController();
   final euroController = TextEditingController();
 
+  double real;
   double dollar;
   double euro;
   double libra;
@@ -101,6 +104,10 @@ class _HomeState extends State<HomeSecond> {
     dollarController.text = (euros * euro / dollar).toStringAsFixed(2);
   }
 
+  void _start(){
+    realController.text = widget.valueReal;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,11 +137,13 @@ class _HomeState extends State<HomeSecond> {
                         style: TextStyle(color: Colors.amber, fontSize: 22.0),
                         textAlign: TextAlign.center),
                   );
-                } else {
-
+                }
+                else {
                   dollar = snapshot.data["results"]["currencies"]["USD"]["buy"];
                   euro = snapshot.data["results"]["currencies"]["EUR"]["buy"];
                   libra = snapshot.data["results"]["currencies"]["GBP"]["buy"];
+                  realController.text = widget.valueReal;
+                  _realChanged(widget.valueReal);
                   return SingleChildScrollView(
                     padding: EdgeInsets.all(10.0),
                     child: Column(
@@ -142,13 +151,13 @@ class _HomeState extends State<HomeSecond> {
                       children: <Widget>[
                         Icon(Icons.monetization_on,
                             size: 150.0, color: Colors.amber),
-                        buildTextField("Reais", "R\$", realController, _realChanged),
+                        buildTextField("Reais", "R\$ ", realController, _realChanged),
                         Divider(),
-                        buildTextField("Euros", "€", euroController, _euroChanged),
+                        buildTextField("Euros", "€ ", euroController, _euroChanged),
                         Divider(),
-                        buildTextField("Dólares", "US\$", dollarController, _dollarChanged),
+                        buildTextField("Dólares", "US\$ ", dollarController, _dollarChanged),
                         Divider(),
-                        buildTextField("Libras", "£", realController, _realChanged),
+                        buildTextField("Libras", "£ ", realController, _realChanged),
                       ],
                     ),
                   );
