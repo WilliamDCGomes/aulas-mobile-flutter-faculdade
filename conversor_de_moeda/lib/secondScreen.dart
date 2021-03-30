@@ -110,25 +110,22 @@ class _HomeSecondState extends State<HomeSecond> {
   }
 
   void _librasChanged(String text){
-    double libra = 0;
+    double libras = 0;
     if(resetLibra){
       libraController.text = text[0];
       libraController.selection = TextSelection.fromPosition(TextPosition(offset: libraController.text.length));
       resetLibra = false;
     }
     if(!text.isEmpty) {
-      libra = double.parse(text);
+      libras = double.parse(text);
     }
     else{
       libraController.text = "0.00";
       resetLibra = true;
     }
-    realController.text = (libra * real).toStringAsFixed(2);
-    libraController.text = (dollars * dollar / libra).toStringAsFixed(2);
-  }
-
-  void _start(){
-    realController.text = widget.valueReal;
+    realController.text = (libras * libra).toStringAsFixed(2);
+    dollarController.text = (libras * libra / dollar).toStringAsFixed(2);
+    euroController.text = (libras * libra / euro).toStringAsFixed(2);
   }
 
   @override

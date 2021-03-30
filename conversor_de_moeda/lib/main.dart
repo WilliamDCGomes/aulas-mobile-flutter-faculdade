@@ -58,6 +58,7 @@ class _HomeState extends State<Home> {
                     controller: valorCotacao,
                     style: TextStyle(color: Colors.amber, fontSize: 18.0),
                     textAlign: TextAlign.center,
+                    keyboardType: TextInputType.number,
                   ),
                   Padding(
                     padding: EdgeInsets.all(15.0),
