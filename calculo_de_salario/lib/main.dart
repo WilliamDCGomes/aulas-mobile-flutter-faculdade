@@ -109,7 +109,11 @@ class _HomeState extends State<Home> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => HomeSecond()
+                                  builder: (context) => HomeSecond(
+                                      workHours: int.parse(horasTrabalhadas.text),
+                                      sallaryValue: double.parse(salarioHora.text),
+                                      dependents: int.parse(totalDependentes.text)
+                                  )
                               )
                           );
                         });

@@ -5,13 +5,24 @@ void main() {
 }
 
 class HomeSecond extends StatefulWidget {
+  int workHours;
+  double sallaryValue;
+  int dependents;
+  HomeSecond({this.workHours, this.sallaryValue, this.dependents});
+
   @override
   _HomeSecond createState() => _HomeSecond();
 }
 
 class _HomeSecond extends State<HomeSecond> {
+  double grossSallary = 0;
+  double inssDiscount = 0;
+  double irDiscount = 0;
+  double netSallary = 0;
+
   @override
   Widget build(BuildContext context) {
+    getValues();
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -36,7 +47,7 @@ class _HomeSecond extends State<HomeSecond> {
                   height: 20.0,
                 ),
                 Text(
-                  "Salário Bruto: R\$ ",
+                  "Salário Bruto: R\$ $grossSallary",
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.amber, fontSize: 25.0),
                 ),
@@ -44,7 +55,7 @@ class _HomeSecond extends State<HomeSecond> {
                   height: 15.0,
                 ),
                 Text(
-                  "Desconto Inss: R\$ ",
+                  "Desconto Inss: R\$ $inssDiscount",
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.amber, fontSize: 25.0),
                 ),
@@ -52,7 +63,7 @@ class _HomeSecond extends State<HomeSecond> {
                   height: 15.0,
                 ),
                 Text(
-                  "Desconto IR: R\$ ",
+                  "Desconto IR: R\$ $irDiscount",
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.amber, fontSize: 25.0),
                 ),
@@ -60,7 +71,7 @@ class _HomeSecond extends State<HomeSecond> {
                   height: 15.0,
                 ),
                 Text(
-                  "Salário Líquido: R\$ ",
+                  "Salário Líquido: R\$ $netSallary",
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.amber, fontSize: 25.0),
                 ),
@@ -69,5 +80,30 @@ class _HomeSecond extends State<HomeSecond> {
           )
         )
     );
+  }
+  void getValues(){
+    grossSallary = widget.workHours * widget.sallaryValue + (50 * widget.dependents);
+    getInssDiscount(this.grossSallary);
+    getIrDiscount(this.grossSallary);
+    netSallary = grossSallary - inssDiscount - irDiscount;
+  }
+  void getInssDiscount(double grossSalary){
+    if(grossSallary <= 1000){
+      inssDiscount = grossSallary * 8.5 / 100;
+    }
+    else{
+      inssDiscount = grossSallary * 9 / 100;
+    }
+  }
+  void getIrDiscount(double grossSalary){
+    if(grossSalary <= 500){
+      irDiscount = 0;
+    }
+    else if (grossSalary > 500 && grossSalary <= 1000){
+      irDiscount = grossSallary * 5 / 100;
+    }
+    else{
+      irDiscount = grossSallary * 7 / 100;
+    }
   }
 }
