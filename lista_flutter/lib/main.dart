@@ -1,124 +1,96 @@
 import 'package:flutter/material.dart';
+import 'package:lista_flutter/AddLista.dart';
 void main(){
-  runApp(MaterialApp(
-    home: Home(),
-  ));
+  runApp(
+    MaterialApp(
+      home: Home(),
+      debugShowCheckedModeBanner: false,
+    )
+  );
 }
-
+List<Compra> _compras = List<Compra>();
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text("Trabalhando com listas"),
+        title: Text(
+            "Lista com Flutter",
+            style: TextStyle(
+              color: Colors.black
+            ),
+        ),
+        backgroundColor: Colors.amber,
       ),
-      body: Container(
-        color: Colors.black,
-        child: Column(
-          children: <Widget>[
-            Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Image.network('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQR3s5VCeDqrBpJ4MvFe9sG01Zt6Iq3i80b-pqf-a79ZaFPs1Ts4e9QWMZUU1BBA-VLaSo&usqp=CAU',
-                    width: 120,),
-                  SizedBox(width: 10.0),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Título",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      Text(
-                        "Sub Título",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
+      body: ListView.builder(
+              padding: EdgeInsets.all(8),
+              itemCount: _compras.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  child: Center(
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            _compras.length > 0 ? _compras[index].titulo : "",
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white
+                            ),
+                          ),
+                          Text(
+                            _compras.length > 0 ? _compras[index].subtitulo : "",
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white
+                            ),
+                          ),
+                          Text(
+                            _compras.length > 0 ? _compras[index].preco?.toString().replaceAll(".", ",") : "",
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white
+                            ),
+                          ),
+                        ],
+                      )
                   ),
-                ]
+                );
+              }
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async{
+          await Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SegundaTela(_compras)
             ),
-            Divider(),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Image.network('https://p2.trrsf.com/image/fget/cf/1200/1200/filters:quality(85)/images.terra.com/2016/04/20/rexfeatures-michael-goh-5-bbc-nova.jpg',
-                    width: 120,),
-                  SizedBox(width: 10.0),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Título",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      Text(
-                        "Sub Título",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ]
-            ),
-            Divider(),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Image.network('https://http2.mlstatic.com/D_NQ_NP_959892-MLB27367053943_052018-O.jpg',
-                    width: 120,),
-                  SizedBox(width: 10.0),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                          "Título",
-                          style: TextStyle(color: Colors.white),
-                      ),
-                      Text(
-                          "Sub Título",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ]
-            ),
-            Divider(),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Image.network('https://images6.alphacoders.com/556/556759.jpg',
-                    width: 120,),
-                  SizedBox(width: 10.0),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                          "Título",
-                          style: TextStyle(color: Colors.white),
-                      ),
-                      Text(
-                          "Sub Título",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ]
-            ),
-          ],
-        )
-      )
+          );
+          setState(() {
+
+          });
+        },
+        child: const Icon(Icons.add),
+        foregroundColor: Colors.black,
+        backgroundColor: Colors.amber,
+      ),
     );
   }
+}
+class Compra{
+  String titulo;
+  String subtitulo;
+  double preco;
+  bool remove;
+  Compra(this.titulo, this.subtitulo, this.preco, {this.remove});
 }
