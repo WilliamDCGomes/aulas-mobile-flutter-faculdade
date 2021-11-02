@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'file:///D:/Programing/Curso%20de%20desenvolvimento%20mobile%20em%20flutter/conversor_de_moeda/lib/secondScreen.dart';
+
+import 'secondScreen.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -24,6 +25,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  TextEditingController valorCotacao = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,21 +51,24 @@ class _HomeState extends State<Home> {
                 children: <Widget>[
                   TextField(
                     decoration: InputDecoration(
-                        labelText: "Digite o valor que deseja convertet!",
+                        labelText: "Digite o valor que deseja converter!",
                         labelStyle: TextStyle(color: Colors.amber),
                         border: OutlineInputBorder()
                     ),
+                    controller: valorCotacao,
                     style: TextStyle(color: Colors.amber, fontSize: 18.0),
                     textAlign: TextAlign.center,
+                    keyboardType: TextInputType.number,
                   ),
                   Padding(
                     padding: EdgeInsets.all(15.0),
                     child: FlatButton(
                         onPressed: () {
+                          String value = valorCotacao.text;
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => HomeSecond()
+                              builder: (context) => HomeSecond(valueReal: value)
                             ),
                           );
                         },

@@ -30,21 +30,27 @@ Future<Map> getData() async {
 }
 
 class HomeSecond extends StatefulWidget {
+  String valueReal;
+  HomeSecond({this.valueReal});
   @override
-  _HomeState createState() => _HomeState();
+  _HomeSecondState createState() => _HomeSecondState();
 }
 
-class _HomeState extends State<HomeSecond> {
+class _HomeSecondState extends State<HomeSecond> {
   final realController = TextEditingController();
   final dollarController = TextEditingController();
   final euroController = TextEditingController();
+  final libraController = TextEditingController();
 
+  double real;
   double dollar;
   double euro;
+  double libra;
 
   bool resetReal = false;
   bool resetDollar = false;
   bool resetEuro = false;
+  bool resetLibra = false;
 
   void _realChanged(String text){
     double real = 0;
@@ -62,6 +68,7 @@ class _HomeState extends State<HomeSecond> {
     }
     dollarController.text = (real/dollar).toStringAsFixed(2);
     euroController.text = (real/euro).toStringAsFixed(2);
+    libraController.text = (real/libra).toStringAsFixed(2);
   }
 
   void _dollarChanged(String text){
@@ -80,6 +87,7 @@ class _HomeState extends State<HomeSecond> {
     }
     realController.text = (dollars * dollar).toStringAsFixed(2);
     euroController.text = (dollars * dollar / euro).toStringAsFixed(2);
+    libraController.text = (dollars * dollar / libra).toStringAsFixed(2);
   }
 
   void _euroChanged(String text){
@@ -98,6 +106,26 @@ class _HomeState extends State<HomeSecond> {
     }
     realController.text = (euros * euro).toStringAsFixed(2);
     dollarController.text = (euros * euro / dollar).toStringAsFixed(2);
+    libraController.text = (euros * euro / libra).toStringAsFixed(2);
+  }
+
+  void _librasChanged(String text){
+    double libras = 0;
+    if(resetLibra){
+      libraController.text = text[0];
+      libraController.selection = TextSelection.fromPosition(TextPosition(offset: libraController.text.length));
+      resetLibra = false;
+    }
+    if(!text.isEmpty) {
+      libras = double.parse(text);
+    }
+    else{
+      libraController.text = "0.00";
+      resetLibra = true;
+    }
+    realController.text = (libras * libra).toStringAsFixed(2);
+    dollarController.text = (libras * libra / dollar).toStringAsFixed(2);
+    euroController.text = (libras * libra / euro).toStringAsFixed(2);
   }
 
   @override
@@ -129,9 +157,13 @@ class _HomeState extends State<HomeSecond> {
                         style: TextStyle(color: Colors.amber, fontSize: 22.0),
                         textAlign: TextAlign.center),
                   );
-                } else {
+                }
+                else {
                   dollar = snapshot.data["results"]["currencies"]["USD"]["buy"];
                   euro = snapshot.data["results"]["currencies"]["EUR"]["buy"];
+                  libra = snapshot.data["results"]["currencies"]["GBP"]["buy"];
+                  realController.text = widget.valueReal + ".00";
+                  _realChanged(widget.valueReal);
                   return SingleChildScrollView(
                     padding: EdgeInsets.all(10.0),
                     child: Column(
@@ -139,11 +171,13 @@ class _HomeState extends State<HomeSecond> {
                       children: <Widget>[
                         Icon(Icons.monetization_on,
                             size: 150.0, color: Colors.amber),
-                        buildTextField("Euros", "€", euroController, _euroChanged),
+                        buildTextField("Reais", "R\$ ", realController, _realChanged),
                         Divider(),
-                        buildTextField("Dólares", "US\$", dollarController, _dollarChanged),
+                        buildTextField("Euros", "€ ", euroController, _euroChanged),
                         Divider(),
-                        buildTextField("Libras", "R\$", realController, _realChanged),
+                        buildTextField("Dólares", "US\$ ", dollarController, _dollarChanged),
+                        Divider(),
+                        buildTextField("Libras", "£ ", libraController, _librasChanged),
                       ],
                     ),
                   );
